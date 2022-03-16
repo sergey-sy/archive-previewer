@@ -16,11 +16,12 @@ def insert_file(file_content: dict) -> int:
     with Session() as session:
         file = File(name=file_content['file'])
         session.add(file)
-        session.commit()
+        session.flush()
         for content in file_content['content']:
             session.add(Content(path=content['path'], size=content['size'], file_id=file.id))
         session.commit()
-        return file.id
+        file_content['id'] = file.id
+        return file_content
 
 
 def is_file_in_files(filename: str):
