@@ -4,7 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-DATABASE_NAME = 'models/db.sqlite' if not os.environ.get('DB_URL') else os.environ['DB_URL']
+DEFAULT_DB_NAME = 'models/db.sqlite'
+DATABASE_NAME = os.getenv('DB_URL', DEFAULT_DB_NAME)
 DATABASE_ECHO = False  # True for DB queries console output
 
 engine = create_engine(f"sqlite:///{DATABASE_NAME}", echo=DATABASE_ECHO, future=True)

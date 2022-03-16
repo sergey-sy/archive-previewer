@@ -4,7 +4,7 @@ from zipfile import ZipFile
 from pathlib import Path
 
 from app import app
-from archive_processor.unpacker import get_zip_content
+from archive_processor.unpacker import Unpacker
 
 
 # Test are performed on in-memory sqlite database which name defined in tests/__init__.py
@@ -25,7 +25,9 @@ def test_get(client):
 
 def test_get_zip_content():
     expected = [{'path': 'new_file_1', 'size': 11}]
-    assert get_zip_content(ZipFile('tests/static/test_archive.zip')) == expected
+    unpacker = Unpacker()
+    unpacker._fill_zip_content(ZipFile('tests/static/test_archive.zip'))
+    assert unpacker.get_content() == expected
 
 
 def test_upload_file(client):
